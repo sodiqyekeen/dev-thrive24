@@ -17,10 +17,3 @@
 -- INSERT INTO department (department_name, faculty_id) VALUES ('Medicine', 3);
 
 -- seed data for skills table
-
-INSERT INTO skill (skill_name, description) VALUES ("Data Science", "lorem ipsum lorem ipsum");
-INSERT INTO skill (skill_name, description) VALUES ("Website Design", "lorem ipsum lorem ipsum");
-INSERT INTO skill (skill_name, description) VALUES ("App development", "lorem ipsum lorem ipsum");
-INSERT INTO skill (skill_name, description) VALUES ("Network Security", "lorem ipsum lorem ipsum");
-INSERT INTO skill (skill_name, description) VALUES ("Machine learning", "lorem ipsum lorem ipsum");
-INSERT INTO skill (skill_name, description) VALUES ("Graphics Design", "lorem ipsum lorem ipsum");
