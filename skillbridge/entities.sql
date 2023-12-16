@@ -3,8 +3,6 @@ DROP TABLE IF EXISTS faculty;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS user;
 
-PRAGMA foreign_keys = ON;
-
 -- Faculty table
 CREATE TABLE faculty (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
