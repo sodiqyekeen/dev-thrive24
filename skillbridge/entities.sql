@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS faculty;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS rating;
 
 -- Faculty table
 CREATE TABLE faculty (
@@ -31,4 +32,12 @@ CREATE TABLE student (
     email VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
+);
+
+CREATE TABLE rating (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tutor_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    rating VARCHAR(255) NOT NULL,
+    review VARCHAR(255) NOT NULL
 );
