@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify, request
 import db
 import services as s
-from models import *
+from skillbridge.models import *
 
 def to_json(data):
     if isinstance(data, list):
