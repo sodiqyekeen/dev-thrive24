@@ -3,9 +3,7 @@ DROP TABLE IF EXISTS faculty;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS transact;
-
-PRAGMA foreign_keys = ON;
-
+DROP TABLE IF EXISTS rating;
 
 -- Faculty table
 CREATE TABLE faculty (
@@ -44,3 +42,12 @@ CREATE TABLE transact(
     payment_status VARCHAR(10) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE rating (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tutor_id VARCHAR(255) NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    rating VARCHAR(255) NOT NULL,
+    review VARCHAR(255) NOT NULL
+);
+
