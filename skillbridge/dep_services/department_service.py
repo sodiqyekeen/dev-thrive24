@@ -4,7 +4,7 @@ from skillbridge.dep_models.department_model import *
 def get_all_department():
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM rating")
+    cur.execute("SELECT * FROM department")
     department_data = cur.fetchall()
     department = []
     for department_data in department_data:
