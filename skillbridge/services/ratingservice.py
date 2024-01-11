@@ -1,5 +1,5 @@
 from db import *
-from skillbridge.models.rating import *
+from skillbridge.models.rating_model import *
 
 def get_all_rating():
     db = get_db()
@@ -25,20 +25,14 @@ def get_rating_by_id(rating_id):
 def add_new_rating(tutor_id, user_id, rating, review):
     db = get_db()
     cur = db.cursor()
-    cur.execute("INSERT INTO rating (tutor_id) VALUES (?)", (tutor_id,))
-    cur.execute("INSERT INTO rating (user_id) VALUES (?)", (user_id,))
-    cur.execute("INSERT INTO rating (rating) VALUES (?)", (rating,))
-    cur.execute("INSERT INTO rating (review) VALUES (?)", (review,))
+    cur.execute("INSERT INTO rating (tutor_id, user_id, rating, review) VALUES (?)", (tutor_id, user_id, rating, review))
     db.commit()
     return cur.lastrowid
 
 def rating_exists(tutor_id, user_id, rating, review):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM rating WHERE tutor_id = ?", (tutor_id,))
-    cur.execute("SELECT * FROM rating WHERE user_id = ?", (user_id))
-    cur.execute("SELECT * FROM rating WHERE rating = ?", (rating))
-    cur.execute("SELECT * FROM rating WHERE review = ?", (review))
+    cur.execute("SELECT * FROM rating WHERE tutor_id, user_id, rating AND review = ?", (tutor_id, user_id, rating, review))
     rating_data = cur.fetchone()
     if rating_data is None:
         return False

@@ -1,5 +1,5 @@
 from db import *
-from skillbridge.dep_models.department_model import *
+from skillbridge.models.department_model import *
 
 def get_all_department():
     db = get_db()
@@ -25,16 +25,14 @@ def get_department_by_id(department_id):
 def add_new_department(department_name, faculty_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("INSERT INTO department (name) VALUES (?)", (department_name,))
-    cur.execute("SELECT * FROM department WHERE faculty_id = ?", (faculty_id))
+    cur.execute("INSERT INTO department (name) AND department (faculty_id) VALUES (?)", (department_name, faculty_id))
     db.commit()
     return cur.lastrowid
 
 def department_exists(department_name, faculty_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM department WHERE name = ?", (department_name,))
-    cur.execute("SELECT * FROM department WHERE faculty_id = ?", (faculty_id))
+    cur.execute("SELECT * FROM department WHERE name AND faculty_id = ?", (department_name, faculty_id))
     department_data = cur.fetchone()
     if department_data is None:
         return False

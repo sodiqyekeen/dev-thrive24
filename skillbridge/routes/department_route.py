@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
-from skillbridge.dep_services import department_services as s
-from my_utilities import to_json
+from skillbridge.services import department_services as s
+from utilities import to_json
 from flasgger import swag_from
 api = Blueprint('api', __name__)
 
@@ -85,8 +85,8 @@ def add_new_department():
         return jsonify({"error": "Name and Faculty_id is required"}), 400
     if s.department_exists(request_data['name, faculty_id']):
         return jsonify({"error": "department already exists"}), 400
-    new_department_id = s.add_new_rating(request_data['tutor_id, user_id'])
-    department = s.get_rating_by_id(new_department_id)
+    new_department_id = s.add_new_department(request_data['tutor_id, user_id'])
+    department = s.get_department_by_id(new_department_id)
     return to_json(department), 201
 
 
@@ -163,7 +163,7 @@ def update_department(department_id):
     },
 })
 def delete_department(department_id):
-    department = s.get_rating_by_id(department_id)
+    department = s.get_department_by_id(department_id)
     if (department is None):
         return jsonify({"error": "Department not found"}), 404
     s.delete_rating(department_id)

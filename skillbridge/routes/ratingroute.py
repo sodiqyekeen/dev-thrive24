@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 from skillbridge.services.ratingservice import services as s
-from my_utilities import to_json
+from utilities import to_json
 from flasgger import swag_from
 api = Blueprint('api', __name__)
 
