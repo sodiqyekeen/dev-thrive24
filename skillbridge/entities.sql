@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS faculty;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS rating;
+DROP TABLE IF EXISTS project;
 
 -- Faculty table
 CREATE TABLE faculty (
@@ -40,4 +41,11 @@ CREATE TABLE rating (
     user_id VARCHAR(255) NOT NULL,
     rating VARCHAR(255) NOT NULL,
     review VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE project (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_title VARCHAR(255) NOT NULL,
+    project_description VARCHAR(400) NOT NULL,
+    project_status VARCHAR(255) NOT NULL
 );
