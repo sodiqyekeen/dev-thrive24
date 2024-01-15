@@ -83,7 +83,7 @@ def add_new_rating():
     request_data = request.get_json()
     if 'tutor_id, user_id' not in request_data:
         return jsonify({"error": "Tutor_id and User_id is required"}), 400
-    if s.faculty_exists(request_data['tutor_id, user_id']):
+    if s.rating_exists(request_data['tutor_id, user_id']):
         return jsonify({"error": "Tutor_id and User_id already exists"}), 400
     new_rating_id = s.add_new_rating(request_data['tutor_id, user_id'])
     rating = s.get_rating_by_id(new_rating_id)
