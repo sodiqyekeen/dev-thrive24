@@ -2,6 +2,7 @@
 DROP TABLE IF EXISTS faculty;
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS transact;
 DROP TABLE IF EXISTS rating;
 DROP TABLE IF EXISTS project;
 
@@ -33,6 +34,14 @@ CREATE TABLE student (
     email VARCHAR(255) UNIQUE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE SET NULL
+);
+
+-- Transaction table
+CREATE TABLE transact(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    payment_reference VARCHAR(225),
+    payment_status VARCHAR(10) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE rating (
