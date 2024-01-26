@@ -1,16 +1,16 @@
 from db import *
-from skillbridge.models.department_model import *
+from models.department_model import *
 
-def get_all_department():
+def get_all_departments():
     db = get_db()
     cur = db.cursor()
     cur.execute("SELECT * FROM department")
-    department_data = cur.fetchall()
-    department = []
-    for department_data in department_data:
+    departments_data = cur.fetchall()
+    departments = []
+    for department_data in departments_data:
         department = Department(department_data['id'], department_data['name'], department_data['faculty_id']) 
-        department.append(department)
-    return department
+        departments.append(department)
+    return departments
 
 def get_department_by_id(department_id):
     db = get_db()

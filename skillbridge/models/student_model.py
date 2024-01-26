@@ -26,17 +26,14 @@ class Student:
     def get_matric_no(self):
         return self.matric_no
     
-    def get_full_name(self):
-        return self.first_name, self.last_name
+    def get_department_id(self):
+        return self.department_id
     
     def get_first_name(self):
         return self.first_name
     
     def get_last_name(self):
         return self.last_name
-    
-    def get_matric_no(self):
-        return self.matric_no
     
     def get_username(self):
         return self.username

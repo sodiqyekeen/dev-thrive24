@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
-from skillbridge.services import department_services as s
+from services import department_service as s
 from utilities import to_json
 from flasgger import swag_from
-api = Blueprint('api', __name__)
+department_endpoint = Blueprint('department_endpoint', __name__)
 
 
-@api.route('/', methods=['GET'])
+@department_endpoint.route('/', methods=['GET'])
 @swag_from({
     'description': 'Get all departments',
     'responses': {
@@ -19,7 +19,7 @@ def get_all_departments():
     return to_json(departments)
 
 
-@api.route('/<int:department_id>', methods=['GET'])
+@department_endpoint.route('/<int:department_id>', methods=['GET'])
 @swag_from({
     'description': 'Get a department by ID',
     'parameters': [
@@ -47,7 +47,7 @@ def get_department_by_id(department_id):
     return to_json(department)
 
 
-@api.route('/', methods=['POST'])
+@department_endpoint.route('/', methods=['POST'])
 @swag_from({
     'description': 'Add a new department',
     'parameters': [
@@ -90,7 +90,7 @@ def add_new_department():
     return to_json(department), 201
 
 
-@api.route('/<int:department_id>', methods=['PUT'])
+@department_endpoint.route('/<int:department_id>', methods=['PUT'])
 @swag_from({
     'description': 'Update a department',
     'parameters': [
@@ -141,7 +141,7 @@ def update_department(department_id):
     return to_json(department), 200
 
 
-@api.route('/<int:department_id>', methods=['DELETE'])
+@department_endpoint.route('/<int:department_id>', methods=['DELETE'])
 @swag_from({
     'description': 'Delete a department',
     'parameters': [

@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
-import services as s
+import service as s
 from utilities import to_json
 from flasgger import swag_from
-api = Blueprint('api', __name__)
+faculty_endpoint = Blueprint('faculty_endpoint', __name__)
 
 
-@api.route('/', methods=['GET'])
+@faculty_endpoint.route('/', methods=['GET'])
 @swag_from({
     'description': 'Get all faculties',
     'responses': {
@@ -19,7 +19,7 @@ def get_all_faculties():
     return to_json(faculties)
 
 
-@api.route('/<int:faculty_id>', methods=['GET'])
+@faculty_endpoint.route('/<int:faculty_id>', methods=['GET'])
 @swag_from({
     'description': 'Get a faculty by ID',
     'parameters': [
@@ -47,7 +47,7 @@ def get_faculty_by_id(faculty_id):
     return to_json(faculty)
 
 
-@api.route('/', methods=['POST'])
+@faculty_endpoint.route('/', methods=['POST'])
 @swag_from({
     'description': 'Add a new faculty',
     'parameters': [
@@ -90,7 +90,7 @@ def add_new_faculty():
     return to_json(faculty), 201
 
 
-@api.route('/<int:faculty_id>', methods=['PUT'])
+@faculty_endpoint.route('/<int:faculty_id>', methods=['PUT'])
 @swag_from({
     'description': 'Update a faculty',
     'parameters': [
@@ -141,7 +141,7 @@ def update_faculty(faculty_id):
     return to_json(faculty), 200
 
 
-@api.route('/<int:faculty_id>', methods=['DELETE'])
+@faculty_endpoint.route('/<int:faculty_id>', methods=['DELETE'])
 @swag_from({
     'description': 'Delete a faculty',
     'parameters': [

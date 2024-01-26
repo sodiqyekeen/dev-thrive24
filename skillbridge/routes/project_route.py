@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
-from skillbridge.services.project_service import services as s
+from services import project_service as s
 from utilities import to_json
 from flasgger import swag_from
-api = Blueprint('api', __name__)
+project_endpoint = Blueprint('project_endpoint', __name__)
 
 
-@api.route('/', methods=['GET'])
+@project_endpoint.route('/', methods=['GET'])
 @swag_from({
     'description': 'Get all projects',
     'responses': {
@@ -19,7 +19,7 @@ def get_all_projects():
     return to_json(projects)
 
 
-@api.route('/<int:project_id>', methods=['GET'])
+@project_endpoint.route('/<int:project_id>', methods=['GET'])
 @swag_from({
     'description': 'Get a project by ID',
     'parameters': [
@@ -47,7 +47,7 @@ def get_project_by_id(project_id):
     return to_json(project)
 
 
-@api.route('/', methods=['POST'])
+@project_endpoint.route('/', methods=['POST'])
 @swag_from({
     'description': 'Add a new project',
     'parameters': [
@@ -90,7 +90,7 @@ def add_new_project():
     return to_json(project), 201
 
 
-@api.route('/<int:project_id>', methods=['PUT'])
+@project_endpoint.route('/<int:project_id>', methods=['PUT'])
 @swag_from({
     'description': 'Update a project',
     'parameters': [
@@ -141,7 +141,7 @@ def update_project(project_id):
     return to_json(project), 200
 
 
-@api.route('/<int:project_id>', methods=['DELETE'])
+@project_endpoint.route('/<int:project_id>', methods=['DELETE'])
 @swag_from({
     'description': 'Delete a project',
     'parameters': [

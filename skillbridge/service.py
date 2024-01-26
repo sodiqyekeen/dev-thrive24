@@ -1,5 +1,5 @@
 from db import *
-from models import *
+from model import *
 
 def get_all_faculties():
     db = get_db()

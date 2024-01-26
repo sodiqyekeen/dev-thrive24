@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 import db
-from routes import facultyroute
+from routes import facultyroute, department_route, project_route, ratingroute, studentroute
 from flasgger import Swagger
 
 
@@ -54,6 +54,10 @@ def hello():
     return 'Hello, World!'
 
 
-app.register_blueprint(facultyroute.api, url_prefix='/api/faculties')
+app.register_blueprint(facultyroute.faculty_endpoint, url_prefix='/api/faculties')
+app.register_blueprint(department_route.department_endpoint, url_prefix='/api/departments')
+app.register_blueprint(project_route.project_endpoint, url_prefix='/api/projects')
+app.register_blueprint(ratingroute.rating_endpoint, url_prefix='/api/ratings')
+app.register_blueprint(studentroute.student_endpoint, url_prefix='/api/students')
 if __name__ == "__main__":
     app.run()
