@@ -13,10 +13,10 @@ def get_all_students():
         students.append(student)
     return students
 
-def get_student_by_id(student_id):
+def get_student_by_matric_no(matric_no):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM student WHERE id = ?", (student_id,))
+    cur.execute("SELECT * FROM student WHERE matric_no = ?", (matric_no,))
     student_data = cur.fetchone()
     if student_data is None:
         return None
@@ -49,8 +49,8 @@ def update_student(student : Student):
                  student.get_password(), student.get_password(), student.get_email(), student.get_id()))
     db.commit()
 
-def delete_student(student_id):
+def delete_student(student_matric_no):
     db = get_db()
     cur = db.cursor()
-    cur.execute("DELETE FROM student WHERE id = ?", (student_id,))
+    cur.execute("DELETE * FROM student WHERE matric_no = ?", (student_matric_no,))
     db.commit()
