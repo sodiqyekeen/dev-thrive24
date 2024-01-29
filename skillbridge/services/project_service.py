@@ -1,16 +1,16 @@
 from db import *
-from skillbridge.models.project_model import *
+from models.project_model import *
 
-def get_all_project():
+def get_all_projects():
     db = get_db()
     cur = db.cursor()
     cur.execute("SELECT * FROM project")
-    project_data = cur.fetchall()
-    project = []
-    for project_data in project_data:
+    projects_data = cur.fetchall()
+    projects = []
+    for project_data in projects_data:
         project = Project(project_data['id'], project_data['project_title'], project_data['project_description'], project_data['project_status']) 
-        project.append(project)
-    return project
+        projects.append(project)
+    return projects
 
 def get_project_by_id(project_id):
     db = get_db()

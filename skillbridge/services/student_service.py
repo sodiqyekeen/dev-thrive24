@@ -1,5 +1,5 @@
-from skillbridge.db import *
-from skillbridge.models.student_model import *
+from db import *
+from models.student_model import *
 
 def get_all_students():
     db = get_db()
@@ -9,7 +9,7 @@ def get_all_students():
     students = []
     for student_data in students_data:
         student = Student(student_data['id'], student_data['matric_no'], student_data['first_name'], student_data['last_name'],
-                          student_data['department_id'], student_data['level'], student_data['username'], student_data'password') 
+                          student_data['department_id'], student_data['level'], student_data['username'], student_data['password'], student_data['email']) 
         students.append(student)
     return students
 
@@ -20,33 +20,37 @@ def get_student_by_id(student_id):
     student_data = cur.fetchone()
     if student_data is None:
         return None
-    student = Student(student_data['id'], student_data['payment_reference'], student_data['payment_status'])
+    student = Student(student_data['id'], student_data['matric_no'], student_data['first_name'], student_data['last_name'],
+                          student_data['department_id'], student_data['level'], student_data['username'], student_data['password'], student_data['email'])
     return student
 
-def add_new_student(payment_reference):
+def add_new_student(matric_no, first_name, last_name, department_id, level, username, password, email):
     db = get_db()
     cur = db.cursor()
-    cur.execute("INSERT INTO Student (payment_reference, payment_status) VALUES (?,?)", (payment_reference, 'paid', ))
+    cur.execute("INSERT INTO student (matric_no, first_name, last_name, department_id, level, username, password, email) VALUES (?,?,?,?,?,?,?,?)", 
+                (id, matric_no, first_name, last_name, department_id, level, username, password, email,))
     db.commit()
     return cur.lastrowid
 
-def student_exists(payment_reference):
+def student_exists(matric_no):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM faculty WHERE payment_reference = ?", (payment_reference,))
+    cur.execute("SELECT * FROM student WHERE matric_no = ?", (matric_no,))
     student_data = cur.fetchone()
     if student_data is None:
         return False
     return True
 
-def update_tranaction(student : Student):
+def update_student(student : Student):
     db = get_db()
     cur = db.cursor()
-    cur.execute("UPDATE Student SET payment_reference = ?, payment_status = ?,  WHERE id = ?", (student.get_payment_reference(), student.get_payment_status(), student.get_id()))
+    cur.execute("UPDATE student SET matric_no = ?, first_name = ?, last_name = ?, department_id = ?, level = ?, username = ?, password = ?, email = ?  WHERE id = ?", 
+                (student.get_matric_no(), student.get_first_name(), student.get_last_name(), student.get_department_id(), student.get_level(), student.get_username(),
+                 student.get_password(), student.get_password(), student.get_email(), student.get_id()))
     db.commit()
 
 def delete_student(student_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("DELETE FROM Student WHERE id = ?", (student_id,))
+    cur.execute("DELETE FROM student WHERE id = ?", (student_id,))
     db.commit()

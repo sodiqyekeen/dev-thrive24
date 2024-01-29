@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
-from skillbridge.services.rating_service import services as s
+from services import rating_service as s
 from utilities import to_json
 from flasgger import swag_from
-api = Blueprint('api', __name__)
+rating_endpoint = Blueprint('rating_endpoint', __name__)
 
 
-@api.route('/', methods=['GET'])
+@rating_endpoint.route('/', methods=['GET'])
 @swag_from({
     'description': 'Get all ratings',
     'responses': {
@@ -19,7 +19,7 @@ def get_all_ratings():
     return to_json(ratings)
 
 
-@api.route('/<int:rating_id>', methods=['GET'])
+@rating_endpoint.route('/<int:rating_id>', methods=['GET'])
 @swag_from({
     'description': 'Get a rating by ID',
     'parameters': [
@@ -47,7 +47,7 @@ def get_rating_by_id(rating_id):
     return to_json(rating)
 
 
-@api.route('/', methods=['POST'])
+@rating_endpoint.route('/', methods=['POST'])
 @swag_from({
     'description': 'Add a new rating',
     'parameters': [
@@ -90,7 +90,7 @@ def add_new_rating():
     return to_json(rating), 201
 
 
-@api.route('/<int:rating_id>', methods=['PUT'])
+@rating_endpoint.route('/<int:rating_id>', methods=['PUT'])
 @swag_from({
     'description': 'Update a rating',
     'parameters': [
@@ -141,7 +141,7 @@ def update_rating(rating_id):
     return to_json(rating), 200
 
 
-@api.route('/<int:rating_id>', methods=['DELETE'])
+@rating_endpoint.route('/<int:rating_id>', methods=['DELETE'])
 @swag_from({
     'description': 'Delete a rating',
     'parameters': [

@@ -1,16 +1,16 @@
 from db import *
-from skillbridge.models.rating_model import *
+from models.rating_model import *
 
-def get_all_rating():
+def get_all_ratings():
     db = get_db()
     cur = db.cursor()
     cur.execute("SELECT * FROM rating")
     rating_data = cur.fetchall()
-    rating = []
+    ratings = []
     for rating_data in rating_data:
         rating = Rating(rating_data['id'], rating_data['tutor_id'], rating_data['user_id'], rating_data['rating'], rating_data['review']) 
-        rating.append(rating)
-    return rating
+        ratings.append(rating)
+    return ratings
 
 def get_rating_by_id(rating_id):
     db = get_db()

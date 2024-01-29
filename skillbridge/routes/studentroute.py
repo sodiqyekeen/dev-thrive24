@@ -1,11 +1,11 @@
 from flask import request, jsonify, Blueprint
-from skillbridge.services.student_service import *
+from services import student_service as s
 from utilities import to_json
 from flasgger import swag_from
-api = Blueprint('api', __name__)
+student_endpoint = Blueprint('student_endpoint', __name__)
 
 
-@api.route('/', methods=['GET'])
+@student_endpoint.route('/', methods=['GET'])
 @swag_from({
     'description': 'Get all students',
     'responses': {
@@ -15,11 +15,11 @@ api = Blueprint('api', __name__)
     },
 })
 def get_all_students():
-    students = get_all_students()
+    students = s.get_all_students()
     return to_json(students)
 
 
-@api.route('/<int:student_id>', methods=['GET'])
+@student_endpoint.route('/<int:student_id>', methods=['GET'])
 @swag_from({
     'description': 'Get a student by ID',
     'parameters': [
@@ -41,13 +41,13 @@ def get_all_students():
     },
 })
 def get_student_by_id(student_id):
-    student = get_student_by_id(student_id)
+    student = s.get_student_by_id(student_id)
     if student is None:
         return jsonify({"error": "student not found"}), 404
     return to_json(student)
 
 
-@api.route('/', methods=['POST'])
+@student_endpoint.route('/', methods=['POST'])
 @swag_from({
     'description': 'Add a new student',
     'parameters': [
@@ -83,14 +83,14 @@ def add_new_student():
     request_data = request.get_json()
     if 'name' not in request_data:
         return jsonify({"error": "Faculty name is required"}), 400
-    if student_exists(request_data['name']):
+    if s.student_exists(request_data['name']):
         return jsonify({"error": "Student already exists"}), 400
-    new_student_id = add_new_student(request_data['name'])
-    student = add_new_student(new_student_id)
+    new_student_id = s.add_new_student(request_data['name'])
+    student = s.add_new_student(new_student_id)
     return to_json(student), 201
 
 
-@api.route('/<int:student_id>', methods=['PUT'])
+@student_endpoint.route('/<int:student_id>', methods=['PUT'])
 @swag_from({
     'description': 'Update a student',
     'parameters': [
@@ -133,15 +133,15 @@ def update_student(student_id):
     request_data = request.get_json()
     if 'name' not in request_data:
         return jsonify({"error": "Student name is required"}), 400
-    student = get_student_by_id(student_id)
+    student = s.get_student_by_id(student_id)
     if (student is None):
         return jsonify({"error": "Student not found"}), 404
     student.name = request_data['name']
-    update_student(student)
+    s.update_student(student)
     return to_json(student), 200
 
 
-@api.route('/<int:faculty_id>', methods=['DELETE'])
+@student_endpoint.route('/<int:faculty_id>', methods=['DELETE'])
 @swag_from({
     'description': 'Delete a student',
     'parameters': [
@@ -163,8 +163,8 @@ def update_student(student_id):
     },
 })
 def delete_student(student_id):
-    student = get_student_by_id(student_id)
+    student = s.get_student_by_id(student_id)
     if (student is None):
         return jsonify({"error": "Student not found"}), 404
-    delete_student(student_id)
+    s.delete_student(student_id)
     return jsonify({"message": "Student deleted successfully"}), 200

@@ -1,5 +1,5 @@
 from skillbridge.db import *
-from skillbridge.models.transact_model import *
+from models.transact_model import *
 
 
 def get_all_transactions():
