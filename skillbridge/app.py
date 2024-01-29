@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 import db
-from routes import facultyroute, department_route, project_route, ratingroute, studentroute
+from routes import facultyroute, department_route, project_route, ratingroute, studentroute, notification_route,user_role_route
 from flasgger import Swagger
 
 
@@ -59,5 +59,7 @@ app.register_blueprint(department_route.department_endpoint, url_prefix='/api/de
 app.register_blueprint(project_route.project_endpoint, url_prefix='/api/projects')
 app.register_blueprint(ratingroute.rating_endpoint, url_prefix='/api/ratings')
 app.register_blueprint(studentroute.student_endpoint, url_prefix='/api/students')
+app.register_blueprint(notification_route.notification_service_endpoint, url_prefix='/api/notification')
+app.register_blueprint(user_role_route.user_role_endpoint, url_prefix='/api/user_role')
 if __name__ == "__main__":
     app.run()
