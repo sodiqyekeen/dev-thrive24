@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS student;
 DROP TABLE IF EXISTS transact;
 DROP TABLE IF EXISTS rating;
 DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS notification;
+DROP TABLE IF EXISTS user_role;
 
 -- Faculty table
 CREATE TABLE faculty (
@@ -57,4 +59,17 @@ CREATE TABLE project (
     project_title VARCHAR(255) NOT NULL,
     project_description VARCHAR(400) NOT NULL,
     project_status VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE notification(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id VARCHAR(255) NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_role(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role_name VARCHAR(255)
 );
