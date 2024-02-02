@@ -1,5 +1,4 @@
 from db import *
-from model import Notification
 from models.notification_model import *
 
 def get_all_notifications():

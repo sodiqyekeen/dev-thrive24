@@ -51,14 +51,16 @@ CREATE TABLE rating (
     tutor_id VARCHAR(255) NOT NULL,
     user_id VARCHAR(255) NOT NULL,
     rating VARCHAR(255) NOT NULL,
-    review VARCHAR(255) NOT NULL
+    review VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE project (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     project_title VARCHAR(255) NOT NULL,
     project_description VARCHAR(400) NOT NULL,
-    project_status VARCHAR(255) NOT NULL
+    project_status VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE notification(

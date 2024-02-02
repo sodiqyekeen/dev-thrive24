@@ -36,7 +36,7 @@ def get_all_users_role():
             'description': 'User_role retrieved successfully',
         },
         '404': {
-            'description': 'User not found',
+            'description': 'User_role not found',
         },
     },
 })
@@ -135,7 +135,8 @@ def update_user_role(user_role_id):
     user_role = s.get_user_role_by_id(user_role_id)
     if (user_role is None):
         return jsonify({"error": "User_role not found"}), 404
-    user_role.name = s.update_user_role(request_data['id'], request_data['role_name'])
+    user_role.role_name = request_data['role_name']
+    s.update_user_role(user_role)
     return to_json(user_role), 200
 
 

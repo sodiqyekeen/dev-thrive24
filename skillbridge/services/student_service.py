@@ -13,10 +13,10 @@ def get_all_students():
         students.append(student)
     return students
 
-def get_student_by_matric_no(matric_no):
+def get_student_by_id(student_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM student WHERE matric_no = ?", (matric_no,))
+    cur.execute("SELECT * FROM student WHERE id = ?", (student_id,))
     student_data = cur.fetchone()
     if student_data is None:
         return None
@@ -28,14 +28,14 @@ def add_new_student(matric_no, first_name, last_name, department_id, level, user
     db = get_db()
     cur = db.cursor()
     cur.execute("INSERT INTO student (matric_no, first_name, last_name, department_id, level, username, password, email) VALUES (?,?,?,?,?,?,?,?)", 
-                (id, matric_no, first_name, last_name, department_id, level, username, password, email,))
+                (matric_no, first_name, last_name, department_id, level, username, password, email))
     db.commit()
     return cur.lastrowid
 
-def student_exists(matric_no):
+def student_exists(student_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM student WHERE matric_no = ?", (matric_no,))
+    cur.execute("SELECT * FROM student WHERE id = ?", (student_id,))
     student_data = cur.fetchone()
     if student_data is None:
         return False
@@ -49,8 +49,8 @@ def update_student(student : Student):
                  student.get_password(), student.get_password(), student.get_email(), student.get_id()))
     db.commit()
 
-def delete_student(student_matric_no):
+def delete_student(student_id):
     db = get_db()
     cur = db.cursor()
-    cur.execute("DELETE * FROM student WHERE matric_no = ?", (student_matric_no,))
+    cur.execute("DELETE * FROM student WHERE matric_no = ?", (student_id,))
     db.commit()

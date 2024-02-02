@@ -7,7 +7,7 @@ department_endpoint = Blueprint('department_endpoint', __name__)
 
 @department_endpoint.route('/', methods=['GET'])
 @swag_from({
-    'description': 'Get all departments',
+    'description': 'Get all Departments',
     'responses': {
         '200': {
             'description': 'All departments retrieved successfully',
@@ -44,7 +44,7 @@ def get_department_by_id(department_id):
     department = s.get_department_by_id(department_id)
     if department is None:
         return jsonify({"error": "Department not found"}), 404
-    return to_json(department)
+    return to_json(department), 200
 
 
 @department_endpoint.route('/', methods=['POST'])
@@ -56,14 +56,14 @@ def get_department_by_id(department_id):
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Department',
+                'name': 'Department_name', 'faculty_id': 'faculty_id',
                 'properties': {
                     'review': {
                         'type': 'string',
-                        'description': 'name of the department',
+                        'description': 'name of the department and its faculty id',
                     },
                 },
-                'required': ['name, faculty_id']
+                'required': ['name', 'faculty_id']
             },
         }
     ],
@@ -81,11 +81,11 @@ def get_department_by_id(department_id):
 })
 def add_new_department():
     request_data = request.get_json()
-    if 'name, faculty_id' not in request_data:
+    if 'name' and 'faculty_id' not in request_data:
         return jsonify({"error": "Name and Faculty_id is required"}), 400
-    if s.department_exists(request_data['name, faculty_id']):
+    if s.department_exists(request_data['name'], request_data['faculty_id']):
         return jsonify({"error": "department already exists"}), 400
-    new_department_id = s.add_new_department(request_data['tutor_id, user_id'])
+    new_department_id = s.add_new_department(request_data['name'], request_data['faculty_id'])
     department = s.get_department_by_id(new_department_id)
     return to_json(department), 201
 
@@ -106,14 +106,14 @@ def add_new_department():
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Department',
+                'name': 'department name', 'faculty_id': 'int',
                 'properties': {
                     'name': {
                         'type': 'string',
                         'description': 'The new name of the Department',
                     },
                 },
-                'required': ['name, faculty_id']
+                'required': ['name', 'faculty_id']
             },
         }
     ],
@@ -131,12 +131,13 @@ def add_new_department():
 })
 def update_department(department_id):
     request_data = request.get_json()
-    if 'name,faculty_id' not in request_data:
+    if 'name' and 'faculty_id' not in request_data:
         return jsonify({"error": "Name and Faculty_id is required"}), 400
     department = s.get_department_by_id(department_id)
     if (department is None):
         return jsonify({"error": "Department not found"}), 404
-    department.name = request_data['department']
+    department.name = request_data['name']
+    department.faculty_id = request_data['faculty_id']
     s.update_department(department)
     return to_json(department), 200
 

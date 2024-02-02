@@ -1,4 +1,4 @@
-from skillbridge.db import *
+from db import *
 from models.transact_model import *
 
 
@@ -23,17 +23,17 @@ def get_transaction_by_id(transaction_id):
     transaction = Transact(transaction_data['id'], transaction_data['payment_reference'], transaction_data['payment_status'])
     return transaction
 
-def add_new_transaction(payment_reference):
+def add_new_transaction(payment_reference, payment_status):
     db = get_db()
     cur = db.cursor()
-    cur.execute("INSERT INTO transact (payment_reference, payment_status) VALUES (?,?)", (payment_reference, 'paid', ))
+    cur.execute("INSERT INTO transact (payment_reference, payment_status) VALUES (?,?)", (payment_reference, payment_status))
     db.commit()
     return cur.lastrowid
 
-def transaction_exists(payment_reference):
+def transaction_exists(payment_reference, payment_status):
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM faculty WHERE payment_reference = ?", (payment_reference,))
+    cur.execute("SELECT * FROM transact WHERE payment_reference = ?, payment_status = ?", (payment_reference, payment_status))
     transaction_data = cur.fetchone()
     if transaction_data is None:
         return False

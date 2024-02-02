@@ -1,11 +1,10 @@
 from db import *
-from models import USER_ROLE
 from models.user_role_model import *
 
 def get_all_users_role():
     db = get_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM department")
+    cur.execute("SELECT * FROM user_role")
     users_role_data = cur.fetchall()
     users_role = []
     for user_role_data in users_role_data:
