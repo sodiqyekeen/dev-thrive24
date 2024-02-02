@@ -56,14 +56,14 @@ def get_project_by_id(project_id):
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'project_id',
+                'project_title':'title', 'project_description': 'description', 'project_status':'status',
                 'properties': {
                     'review': {
                         'type': 'string',
-                        'description': 'Project_title and Project_description of the project',
+                        'description': 'project_title, project_description, project_status of project',
                     },
                 },
-                'required': ['project_title and project_description']
+                'required': ['project_title', 'project_description', 'project_status']
             },
         }
     ],
@@ -72,7 +72,7 @@ def get_project_by_id(project_id):
             'description': 'Project created successfully',
         },
         '400': {
-            'description': 'Project_title and Project_description is required',
+            'description': 'Project_title, Project_description and Project status is required',
         },
         '400': {
             'description': 'Project already exists',
@@ -81,11 +81,11 @@ def get_project_by_id(project_id):
 })
 def add_new_project():
     request_data = request.get_json()
-    if 'project_title and project_description' not in request_data:
-        return jsonify({"error": "Project_title and Project_description is required"}), 400
-    if s.project_exists(request_data['Project_title and Project_description']):
-        return jsonify({"error": "Project_title and Project_description already exists"}), 400
-    new_project_id = s.add_new_project(request_data['Project_title and Project_description'])
+    if 'project_title' and 'project_description' and 'project_status' not in request_data:
+        return jsonify({"error": "Project_title, Project_description and Project status is required"}), 400
+    if s.project_exists(request_data['Project_title'], request_data['Project_description'], request_data['project_status']):
+        return jsonify({"error": "Project already exists"}), 400
+    new_project_id = s.add_new_project(request_data['Project_title'], request_data['Project_description'], request_data['project_status'])
     project = s.get_project_by_id(new_project_id)
     return to_json(project), 201
 
@@ -106,14 +106,14 @@ def add_new_project():
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'project_id',
+                'project_title':'title', 'project_description': 'description', 'project_status':'status',
                 'properties': {
                     'name': {
                         'type': 'string',
-                        'description': 'The project_title and project_description of the new project',
+                        'description': 'project_title, project_description, project_status of the new project',
                     },
                 },
-                'required': ['project_title and project_description']
+                'required': ['project_title', 'project_description', 'project_status']
             },
         }
     ],
@@ -122,7 +122,7 @@ def add_new_project():
             'description': 'Project updated successfully',
         },
         '400': {
-            'description': 'project_title and project_description is required',
+            'description': 'Project_title, Project_description and Project status is required',
         },
         '404': {
             'description': 'project not found',
@@ -131,12 +131,12 @@ def add_new_project():
 })
 def update_project(project_id):
     request_data = request.get_json()
-    if 'project_title and project_description' not in request_data:
-        return jsonify({"error": "Project_title and Project_description is required"}), 400
+    if 'project_title' and 'project_description' and 'project_status' not in request_data:
+        return jsonify({"error": "Project_title, Project_description and Project status is required"}), 400
     project = s.get_project_by_id(project_id)
     if (project is None):
         return jsonify({"error": "Project not found"}), 404
-    project.name = request_data['Project_title and Project_description']
+    project.project_title, project.project_description, project.project_status = request_data['Project_title'], request_data['Project_description'], request_data['project_status']
     s.update_project(project)
     return to_json(project), 200
 

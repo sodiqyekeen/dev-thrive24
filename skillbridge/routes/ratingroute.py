@@ -56,14 +56,17 @@ def get_rating_by_id(rating_id):
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Tutor_id, User_id',
+                'tutor_id': 'ID_1',
+                'user_id' : 'ID_2', 
+                'rating': 'number of stars', 
+                'review': 'comment',
                 'properties': {
                     'review': {
                         'type': 'string',
-                        'description': 'Tutor_id and User_id of the rating',
+                        'description': 'Tutor id, User id, Rating and Review of new Rating',
                     },
                 },
-                'required': ['tutor_id and user_id']
+                'required': ['tutor_id', 'user_id', 'rating', 'review']
             },
         }
     ],
@@ -72,7 +75,7 @@ def get_rating_by_id(rating_id):
             'description': 'Rating created successfully',
         },
         '400': {
-            'description': 'Tutor_id and User_id is required',
+            'description': 'tutor_id, user_id, rating, and review is required',
         },
         '400': {
             'description': 'Rating already exists',
@@ -81,11 +84,11 @@ def get_rating_by_id(rating_id):
 })
 def add_new_rating():
     request_data = request.get_json()
-    if 'tutor_id, user_id' not in request_data:
-        return jsonify({"error": "Tutor_id and User_id is required"}), 400
-    if s.rating_exists(request_data['tutor_id, user_id']):
-        return jsonify({"error": "Tutor_id and User_id already exists"}), 400
-    new_rating_id = s.add_new_rating(request_data['tutor_id, user_id'])
+    if 'tutor_id' and 'user_id' and 'rating' and 'review' not in request_data:
+        return jsonify({"error": "tutor_id, user_id, rating, and review is required"}), 400
+    if s.rating_exists(request_data['tutor_id'], request_data['user_id'], request_data['rating'], request_data['review']):
+        return jsonify({"error": "rating already exists"}), 400
+    new_rating_id = s.add_new_rating(request_data['tutor_id'], request_data['user_id'], request_data['rating'], request_data['review'])
     rating = s.get_rating_by_id(new_rating_id)
     return to_json(rating), 201
 
@@ -106,14 +109,17 @@ def add_new_rating():
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Rating',
+                'tutor_id': 'ID_1',
+                'user_id' : 'ID_2', 
+                'rating': 'number of stars', 
+                'review': 'comment',
                 'properties': {
                     'name': {
                         'type': 'string',
-                        'description': 'The new rating of the Rating',
+                        'description': 'Tutor id, User id, Rating and Review of updated Rating',
                     },
                 },
-                'required': ['rating']
+                'required': ['tutor_id', 'user_id', 'rating', 'review']
             },
         }
     ],
@@ -122,7 +128,7 @@ def add_new_rating():
             'description': 'Rating updated successfully',
         },
         '400': {
-            'description': 'rating is required',
+            'description': 'tutor_id, user_id, rating, and review is required',
         },
         '404': {
             'description': 'Rating not found',
@@ -131,12 +137,12 @@ def add_new_rating():
 })
 def update_rating(rating_id):
     request_data = request.get_json()
-    if 'name' not in request_data:
-        return jsonify({"error": "Rating is required"}), 400
+    if 'tutor_id' and 'user_id' and 'rating' and 'review' not in request_data not in request_data:
+        return jsonify({"error": "tutor_id, user_id, rating, and review is required"}), 400
     rating = s.get_faculty_by_id(rating_id)
     if (rating is None):
         return jsonify({"error": "Rating not found"}), 404
-    rating.name = request_data['rating']
+    rating.tutor_id, rating.user_id, rating.rating, rating.review = request_data['tutor_id'], request_data['user_id'], request_data['rating'], request_data['review']
     s.update_rating(rating)
     return to_json(rating), 200
 

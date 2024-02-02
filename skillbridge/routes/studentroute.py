@@ -56,14 +56,21 @@ def get_student_by_id(student_id):
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Student',
+                'matric_no': 'int', 
+                'first_name': 'str', 
+                'last_name': 'str', 
+                'department_id': 'int', 
+                'level': 'int', 
+                'username': 'int', 
+                'password': 'password', 
+                'email': 'str',
                 'properties': {
                     'name': {
                         'type': 'string',
-                        'description': 'Name of the student',
+                        'description': 'matric_no, first_name, last_name, department_id, level, username, password, email of the student',
                     },
                 },
-                'required': ['name']
+                'required': ['matric_no', 'first_name', 'last_name', 'department_id', 'level', 'username', 'password', 'email']
             },
         }
     ],
@@ -72,7 +79,7 @@ def get_student_by_id(student_id):
             'description': 'Student created successfully',
         },
         '400': {
-            'description': 'Student name is required',
+            'description': 'matric_no, first_name, last_name, department_id, level, username, password and email is required',
         },
         '400': {
             'description': 'Student already exists',
@@ -85,8 +92,8 @@ def add_new_student():
         return jsonify({"error": "[matric_no, first_name, last_name, department_id, level, username, password, email] all field is required"}), 400
     if s.student_exists(request_data['matric_no']):
         return jsonify({"error": "Student already exists"}), 400
-    new_student = s.add_new_student(request_data['name'], request_data['matric_no'], request_data['first_name'], request_data['last_name'], request_data['department_id'], request_data['level'], request_data['username'], request_data['password'], request_data['email'])
-    student = s.add_new_student(new_student)
+    new_student_id = s.add_new_student(request_data['matric_no'], request_data['first_name'], request_data['last_name'], request_data['department_id'], request_data['level'], request_data['username'], request_data['password'], request_data['email'])
+    student = s.get_student_by_id(new_student_id)
     return to_json(student), 201
 
 
@@ -106,14 +113,21 @@ def add_new_student():
             'in': 'body',
             'required': 'true',
             'schema': {
-                'id': 'Student',
+                'matric_no': 'int', 
+                'first_name': 'str', 
+                'last_name': 'str', 
+                'department_id': 'int', 
+                'level': 'int', 
+                'username': 'int', 
+                'password': 'password', 
+                'email': 'str',
                 'properties': {
                     'name': {
                         'type': 'string',
-                        'description': 'The new name of the Student',
+                        'description': 'matric_no, first_name, last_name, department_id, level, username, password, email of the updated student',
                     },
                 },
-                'required': ['name']
+                'required': ['matric_no', 'first_name', 'last_name', 'department_id', 'level', 'username', 'password', 'email']
             },
         }
     ],
@@ -122,7 +136,7 @@ def add_new_student():
             'description': 'Student updated successfully',
         },
         '400': {
-            'description': 'Student name is required',
+            'description': 'matric_no, first_name, last_name, department_id, level, username, password and email is required',
         },
         '404': {
             'description': 'Student not found',
@@ -131,17 +145,12 @@ def add_new_student():
 })
 def update_student(student_id):
     request_data = request.get_json()
-    if 'matric_no' not in request_data:
-        return jsonify({"error": "Matric_no is required"}), 400
+    if 'matric_no' and 'first_name' and 'last_name' and 'department_id' and 'level' and 'username' and 'password' and 'email' not in request_data:
+        return jsonify({"error": "[matric_no, first_name, last_name, department_id, level, username, password, email] all field is required is required"}), 400
     student = s.get_student_by_id(student_id)
     if (student is None):
         return jsonify({"error": "Student not found"}), 404
-    student.matric_no = request_data['matric_no']
-    student.first_name = request_data['first_name']
-    student.last_name = request_data['last_name']
-    student.username = request_data['username']
-    student.password = request_data['password']
-    student.email = request_data['email']
+    student.matric_no, student.first_name, student.last_name, student.department_id, student.level, student.username, student.password, student.email = request_data['matric_no'], request_data['first_name'], request_data['last_name'], request_data['department_id'], request_data['level'], request_data['username'], request_data['password'], request_data['email']
     s.update_student(student)
     return to_json(student), 200
 
@@ -167,9 +176,9 @@ def update_student(student_id):
         },
     },
 })
-def delete_student(student_matric_no):
-    student = s.get_student_by_matric_no(student_matric_no)
+def delete_student(student_id):
+    student = s.get_student_by_matric_no(student_id)
     if (student is None):
         return jsonify({"error": "Student not found"}), 404
-    s.delete_student(student_matric_no)
+    s.delete_student(student_id)
     return jsonify({"message": "Student deleted successfully"}), 200

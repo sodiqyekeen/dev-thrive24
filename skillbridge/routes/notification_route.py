@@ -88,8 +88,8 @@ def add_new_notification():
         return jsonify({"error": "user_id and content is required"}), 400
     if s.notification_exists(request_data['user_id'], request_data['content']):
         return jsonify({"error": "Notification already exists"}), 400
-    new_notification = s.add_new_notification(request_data['user_id'], request_data['content'])
-    project = s.add_new_notification(new_notification)
+    new_notification_id = s.add_new_notification(request_data['user_id'], request_data['content'])
+    project = s.get_notification_by_id(new_notification_id)
     return to_json(project), 201
 
 
@@ -141,7 +141,8 @@ def update_notification(notification_id):
     notification = s.get_notification_by_id(notification_id)
     if (notification is None):
         return jsonify({"error": "Notification not found"}), 404
-    notification= s.update_notification(request_data['user_id'], request_data['content'])
+    notification.user_id, notification.content = request_data['user_id'], request_data['content']
+    s.update_notification(notification)
     return to_json(notification), 200
 
 
