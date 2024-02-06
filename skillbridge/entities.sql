@@ -7,6 +7,9 @@ DROP TABLE IF EXISTS rating;
 DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS notification;
 DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS skills;
+DROP TABLE IF EXISTS Skill_Exchange;
+DROP TABLE IF EXISTS User_Skill;
 
 -- Faculty table
 CREATE TABLE faculty (
@@ -74,4 +77,32 @@ CREATE TABLE notification(
 CREATE TABLE user_role(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     role_name VARCHAR(255)
+);
+
+CREATE TABLE skills(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Skill_Name VARCHAR(255) NOT NULL, 
+    Description VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Skill_Exchange(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student1_ID NOT NULL,
+    student2_ID NOT NULL,
+    skill_ID NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Status VARCHAR(255) NOT NULL,
+    FOREIGN KEY (student1_ID) REFERENCES student(id) ON DELETE SET NULL,
+    FOREIGN KEY (student2_Id) REFERENCES student(id) ON DELETE SET NULL,
+    FOREIGN KEY (skill_ID) REFERENCES skills(id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE User_Skill (
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   Proficiency_level VARCHAR(250),
+   student_ID NOT NULL,
+   Skill_ID NOT NULL,
+   FOREIGN KEY (student_ID) REFERENCES student(id) ON DELETE SET NULL,
+   FOREIGN KEY (Skill_ID) REFERENCES kills(id) ON DELETE SET NULL
 );
